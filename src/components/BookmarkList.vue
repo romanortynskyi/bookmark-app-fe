@@ -63,7 +63,7 @@ export default {
   </ul>
 </template>
 
-<style>
+<style scoped>
 ul {
   box-shadow: 0px 0px 8px -4px #000000;
   border-radius: 20px;

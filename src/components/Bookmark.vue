@@ -22,21 +22,6 @@ export default {
       type: Function,
     },
 
-    onEditClick: {
-      type: Function,
-    },
-    onDeleteClick: {
-      type: Function,
-    },
-    onCopyLinkClick: {
-      type: Function,
-    },
-    onOpenInNewTabClick: {
-      type: Function,
-    },
-    onOpenInNewWindowClick: {
-      type: Function,
-    },
     onContextMenu: {
       type: Function,
     },
@@ -52,8 +37,14 @@ export default {
       this.onFocus(this.id)
     },
     onMenuClick(e) {
-      console.log(e)
-      console.log(e.target.getBoundingClientRect())
+      const { right, top } = this.$refs.iconButton.$refs.button.getBoundingClientRect()
+  
+      // 145 is the width of context menu + 15 * 2 (padding)
+      this.onContextMenu({
+        contextMenuX: right - 175,
+        contextMenuY: top,
+        id: this.id,  
+      })
     },
     _onContextMenu(e) {
       this.onContextMenu({
@@ -80,7 +71,7 @@ export default {
       <span class="link" v-if="isFocused">{{ this.link }}</span>
     </div>
     
-    <IconButton icon="fa-ellipsis-vertical" :click="onMenuClick" />
+    <IconButton ref="iconButton" icon="fa-ellipsis-vertical" :click="onMenuClick" />
   </div>
 </template>
 

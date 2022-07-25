@@ -36,7 +36,7 @@ input {
   border-radius: 999px;
   background-color: transparent;
   font: inherit;
-  color: #7e8ba3;
+  color: rgb(29, 29, 29);
   outline: 0;
   padding: 0.5rem 1rem;
   width: 100%;

@@ -1,10 +1,9 @@
 <script>
-import vClickOutside from 'click-outside-vue3'
-
 import Input from '../components/Input.vue'
 import Button from '../components/Button.vue'
 import Modal from '../components/Modal.vue'
 import BookmarkList from '../components/BookmarkList.vue'
+import ContextMenu from '../components/ContextMenu.vue'
 
 export default {
   components: {
@@ -12,24 +11,50 @@ export default {
     Button,
     Modal,
     BookmarkList,
-  },
-  directives: {
-    clickOutside: vClickOutside.directive, 
+    ContextMenu,
   },
   data() {
     return {
       title: '',
       description: '',
       link: '',
+
       bookmarks: [],
-      selectedBookmark: null,
-      focusedBookmarkId: null,
       isLoadingBookmarks: true,
+
+      selectedBookmarkId: null,
+      focusedBookmarkId: null,
+
+      isUpdating: false,
+      
       isModalVisible: false,
 
       contextMenuX: null,
       contextMenuY: null,
       contextMenuVisible: false,
+
+      contextMenuItems: [
+        {
+          label: 'Edit',
+          onClick: this.onEditClick,
+        },
+        {
+          label: 'Delete',
+          onClick: this.onDeleteClick,
+        },
+        {
+          label: 'Copy link',
+          onClick: this.onCopyLinkClick,
+        },
+        {
+          label: 'Open in new tab',
+          onClick: this.onOpenInNewTabClick,
+        },
+        {
+          label: 'Open in new window',
+          onClick: this.onOpenInNewWindowClick,
+        },
+      ],
     }
   },
   async mounted() {
@@ -64,10 +89,11 @@ export default {
     },
     async onCloseModal() {
       this.isModalVisible = false
+      this.isUpdating = false
       
       this.resetForm()
     },
-    async onAdd() {
+    async onAddSubmit() {
       const { id, token } = JSON.parse(localStorage.getItem('user')) || {}
 
       const body = {
@@ -93,45 +119,18 @@ export default {
       this.resetForm()
       this.isModalVisible = false
     },
-    async onDelete(id) {
-      const { token } = JSON.parse(localStorage.getItem('user')) || {}
-
-      await fetch(`http://localhost:3000/bookmarks/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      })
-
-      const index = this.bookmarks.findIndex(bookmark => bookmark.id === id)
-
-      this.bookmarks.splice(index, 1)
-    },
-    async onEdit(id) {
-      const selectedBookmark = this.bookmarks.find(bookmark => bookmark.id === id)
-      this.selectedBookmark = Object.assign({}, selectedBookmark)
-    },
-    async onCancelEdit() {
-      this.selectedBookmark = null
-    },
-    async onSubmitEdit() {
+    
+    async onEditSubmit() {
       const { id: userId, token } = JSON.parse(localStorage.getItem('user')) || {}
-
-      const {
-        id,
-        title,
-        description,
-        link,
-      } = this.selectedBookmark
 
       const body = {
         userId,
-        title,
-        description,
-        link,
+        title: this.title,
+        description: this.description,
+        link: this.link,
       }
 
-      const response = await fetch(`http://localhost:3000/bookmarks/${id}`, {
+      const response = await fetch(`http://localhost:3000/bookmarks/${this.selectedBookmarkId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -144,14 +143,26 @@ export default {
       const updatedBookmark = await response.json()
 
       this.bookmarks = this.bookmarks.map(bookmark => {
-        if (bookmark.id === id) {
+        if (bookmark.id === this.selectedBookmarkId) {
           return updatedBookmark
         }
 
         return bookmark
       })
 
-      this.selectedBookmark = null
+      this.selectedBookmarkId = null
+      this.isUpdating = false
+
+      this.resetForm()
+      this.isModalVisible = false
+    },
+    onSubmit() {
+      if (this.isUpdating) {
+        this.onEditSubmit()
+      }
+      else {
+        this.onAddSubmit()
+      }
     },
     onBookmarkFocus(id) {
       this.focusedBookmarkId = id
@@ -161,9 +172,36 @@ export default {
       this.$router.replace('/login')
     },
     onEditClick() {
-      console.log('90')
+      this.isUpdating = true
+
+      const selectedBookmark = this.bookmarks.find(bookmark => bookmark.id === this.focusedBookmarkId)
+
+      this.selectedBookmarkId = this.focusedBookmarkId
+
+      this.title = selectedBookmark.title
+      this.description = selectedBookmark.description
+      this.link = selectedBookmark.link
+
+      this.isModalVisible = true
+      this.closeContextMenu()
     },
-    onDeleteClick() {},
+    async onDeleteClick() {
+      const { token } = JSON.parse(localStorage.getItem('user')) || {}
+
+      await fetch(`http://localhost:3000/bookmarks/${this.focusedBookmarkId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      const index = this.bookmarks.findIndex(bookmark => bookmark.id === this.focusedBookmarkId)
+
+      this.bookmarks.splice(index, 1)
+
+      this.selectedBookmarkId = null
+      this.closeContextMenu()
+    },
     onCopyLinkClick() {},
     onOpenInNewTabClick() {},
     onOpenInNewWindowClick() {},
@@ -205,7 +243,7 @@ export default {
         </button>
         <form
           class="form"
-          @submit.prevent="onAdd"
+          @submit.prevent="onSubmit"
         >
           <Input type="text" v-model="title" placeholder="title" />
           <Input type="text" v-model="description" placeholder="description" />
@@ -219,53 +257,19 @@ export default {
         :focusedId="focusedBookmarkId"
         :onItemFocus="onBookmarkFocus"
 
-        :onEditClick="onEditClick"
-        :onDeleteClick="onDeleteClick"
-        :onCopyLinkClick="onCopyLinkClick"
-        :onOpenInNewTabClick="onOpenInNewTabClick"
-        :onOpenInNewWindowClick="onOpenInNewWindowClick"
-
         :onContextMenu="onContextMenu"
         :contextMenuX="contextMenuX"
         :contextMenuY="contextMenuY"
         :contextMenuVisible="contextMenuVisible"
       />
 
-      <ul
-        v-click-outside="onContextMenuClickOutside"
-        v-if="contextMenuVisible"
-        class="contextmenu"
-        :style="{
-          left: `${contextMenuX}px`,
-          top: `${contextMenuY}px`,
-        }"
-      >
-        <li @click.stop="onEditClick">
-          <span>
-            Edit
-          </span>
-        </li>
-        <li @click.stop="onDeleteClick">
-          <span>
-            Delete
-          </span>
-        </li>
-        <li @click.stop="onCopyLinkClick">
-          <span>
-            Copy link
-          </span>
-        </li>
-        <li @click.stop="onOpenInNewTabClick">
-          <span>
-            Open in new tab
-          </span>
-        </li>
-        <li @click.stop="onOpenInNewWindowClick">
-          <span>
-            Open in new window
-          </span>
-        </li>
-      </ul>
+      <ContextMenu
+        :onClickOutside="onContextMenuClickOutside"
+        :left="contextMenuX"
+        :top="contextMenuY"
+        :items="contextMenuItems"
+        :visible="contextMenuVisible"
+      />
 
     </div>
   </main>
@@ -305,11 +309,6 @@ export default {
 
 .delete-btn-container {
   margin-right: 20px;
-}
-
-.contextmenu {
-  position: absolute;
-  background-color: white;
 }
 
 </style>

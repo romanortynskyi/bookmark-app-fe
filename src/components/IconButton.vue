@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <button @click="click">
+  <button @click="click" ref="button">
     <FontAwesomeIcon :icon="`fa-solid ${icon}`" />
   </button>
 </template>
