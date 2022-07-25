@@ -4,6 +4,7 @@ import Button from '../components/Button.vue'
 import Modal from '../components/Modal.vue'
 import BookmarkList from '../components/BookmarkList.vue'
 import ContextMenu from '../components/ContextMenu.vue'
+import Search from '../components/Search.vue'
 
 export default {
   components: {
@@ -12,6 +13,7 @@ export default {
     Modal,
     BookmarkList,
     ContextMenu,
+    Search,
   },
   data() {
     return {
@@ -19,8 +21,9 @@ export default {
       description: '',
       link: '',
 
-      bookmarks: [],
       isLoadingBookmarks: true,
+      allBookmarks: [],
+      bookmarks: [],
 
       selectedBookmarkId: null,
       focusedBookmarkId: null,
@@ -69,7 +72,7 @@ export default {
     })
     const bookmarks = await bookmarksResponse.json()
 
-    this.bookmarks = bookmarks
+    this.allBookmarks = bookmarks
     this.isLoadingBookmarks = false
   },
 
@@ -256,7 +259,21 @@ export default {
     onContextMenuClickOutside() {
       this.closeContextMenu()
     },
-  }
+    onSearch(query) {
+      if (query.length > 0) {
+        const foundBookmarks = this.bookmarks.filter(bookmark => bookmark.title.includes(query) || bookmark.link.includes(query))
+        this.bookmarks = foundBookmarks
+      }
+      else {
+        this.bookmarks = this.allBookmarks
+      }
+    },
+  },
+  watch: {
+    allBookmarks(newAllBookmarks) {
+      this.bookmarks = newAllBookmarks
+    },
+  },
 }
 
 </script>
@@ -270,6 +287,10 @@ export default {
         <Button text="Sign out" :click="onSignOut" />
       </div>
 
+      <div class="search">
+        <Search :onChange="onSearch" />
+      </div>
+      
       <Modal :visible="isModalVisible">
         <button
           class="modal-close-btn"
@@ -345,6 +366,10 @@ export default {
 
 .delete-btn-container {
   margin-right: 20px;
+}
+
+.search {
+  margin-bottom: 20px;
 }
 
 </style>
