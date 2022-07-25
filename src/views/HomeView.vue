@@ -222,13 +222,25 @@ export default {
       this.closeContextMenu()
     },
     onOpenInNewTabClick() {
-      const { link } = this.bookmarks.find(bookmark => bookmark.id) || {}
+      const { link } = this.bookmarks.find(bookmark => bookmark.id === this.focusedBookmarkId) || {}
       window.open(link, '_blank')
 
       this.focusedBookmarkId = null
       this.closeContextMenu()
     },
-    onOpenInNewWindowClick() {},
+    onOpenInNewWindowClick() {
+      const { link } = this.bookmarks.find(bookmark => bookmark.id === this.focusedBookmarkId) || {}
+
+      const {
+        height,
+        width,
+      } = window.screen
+      
+      window.open(link, '', `width=${width},height=${height}`)
+
+      this.focusedBookmarkId = null
+      this.closeContextMenu()
+    },
     onContextMenu(params) {
       const {
         contextMenuX,
