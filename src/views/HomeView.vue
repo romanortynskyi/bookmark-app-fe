@@ -96,11 +96,22 @@ export default {
     async onAddSubmit() {
       const { id, token } = JSON.parse(localStorage.getItem('user')) || {}
 
+      let link
+
+      const regexp = /^https?:\/\/.*/
+
+      if (regexp.test(this.link)) {
+        link = this.link
+      }
+      else {
+        link = `http://${this.link}`
+      }
+
       const body = {
         userId: id,
         title: this.title,
         description: this.description,
-        link: this.link,
+        link,
       }
 
       const response = await fetch('http://localhost:3000/bookmarks', {
@@ -202,8 +213,21 @@ export default {
       this.selectedBookmarkId = null
       this.closeContextMenu()
     },
-    onCopyLinkClick() {},
-    onOpenInNewTabClick() {},
+    onCopyLinkClick() {
+      const { link } = this.bookmarks.find(bookmark => bookmark.id === this.focusedBookmarkId) || {}
+
+      navigator.clipboard.writeText(link)
+
+      this.focusedBookmarkId = null
+      this.closeContextMenu()
+    },
+    onOpenInNewTabClick() {
+      const { link } = this.bookmarks.find(bookmark => bookmark.id) || {}
+      window.open(link, '_blank')
+
+      this.focusedBookmarkId = null
+      this.closeContextMenu()
+    },
     onOpenInNewWindowClick() {},
     onContextMenu(params) {
       const {
