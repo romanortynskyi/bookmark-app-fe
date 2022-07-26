@@ -1,11 +1,20 @@
 <script>
-import { RouterLink } from 'vue-router'
+import Input from '../components/Input.vue'
+import Button from '../components/Button.vue'
 
 export default {
+  components: {
+    Input,
+    Button,
+},
   data() {
     return {
       email: '',
       password: '',
+
+      emailError: null,
+      passwordError: null,
+
       isFetching: false,
     }
   },
@@ -38,6 +47,37 @@ export default {
       this.$router.replace('/')
     }
   },
+  watch: {
+    email(newEmail) {
+      if (newEmail.length === 0) {
+        this.emailError = 'Email should not be empty'
+        return
+      }
+
+      const regexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+      const isValid = regexp.test(newEmail)
+      
+      if(!isValid) {
+        this.emailError = 'Email should be a valid email'
+        return
+      }
+
+      this.emailError = null
+    },
+    password(newPassword) {
+      if (newPassword.length === 0) {
+        this.passwordError = 'Password should not be empty'
+        return
+      }
+
+      if (newPassword.length < 6) {
+        this.passwordError = 'Password should be at least 6 characters long'
+        return
+      }
+
+      this.passwordError = null
+    },
+  },
 }
 </script>
 
@@ -48,17 +88,10 @@ export default {
         <h2>Login</h2>
   
         <form class="form" @submit.prevent="onSubmit">
-          <div class="form__field">
-            <input type="email" placeholder="Email" v-model="email">
-          </div>
-  
-          <div class="form__field">
-            <input type="password" placeholder="Password" v-model="password">
-          </div>
-  
-          <div class="form__field">
-            <button type="submit">Login</button>
-          </div>
+          <Input type="email" placeholder="Email" v-model="email" :error="emailError" />
+          <Input type="password" placeholder="Password" v-model="password" :error="passwordError" />
+          
+          <Button text="Login" type="submit" />
         </form>
 
         <p>
@@ -72,8 +105,10 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #354152;
-  color: #7e8ba3;
+  background-color: #f3f3f3;
+  /* background-color: #354152; */
+  /* color: #7e8ba3; */
+  color: #222120;
   font: 300 1rem/1.5 Helvetica Neue, sans-serif;
   
   min-height: 100%;
@@ -82,36 +117,14 @@ export default {
   align-items: center;
 }
 
-.align {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-}
-
-.align__item--start {
-  align-self: flex-start;
-}
-
-.align__item--end {
-  align-self: flex-end;
-}
-
-.site__logo {
-  margin-bottom: 2rem;
-}
-
 input {
   border: 0;
   font: inherit;
-  color: #7e8ba3;
+  color: #222120;
 }
 
 input::placeholder {
-  color: #7e8ba3;
-}
-
-.form__field {
-  margin-bottom: 1rem;
+  color: #666;
 }
 
 .form input {
@@ -143,11 +156,12 @@ svg {
 }
 
 a {
-  color: #7e8ba3;
+  color: #666;
 }
 
 .register {
-  box-shadow: 0 0 250px #000;
+  box-shadow: 0px 0px 8px -4px #000000;
+  border-radius: 20px;
   text-align: center;
   padding: 4rem 2rem;
 }
@@ -156,17 +170,6 @@ a {
   border: 1px solid #242c37;
   border-radius: 999px;
   background-color: transparent;
-}
-
-.register button {
-  background-image: linear-gradient(160deg, #8ceabb 0%, #378f7b 100%);
-  color: #fff;
-  margin-bottom: 6rem;
-  outline: none;
-  border: none;
-  border-radius: 999px;
-  padding: 15px;
-  cursor: pointer;
 }
 
 </style>
