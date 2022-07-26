@@ -27,9 +27,23 @@ const messages = {
     signup: 'Sign up',
     email: 'Email',
     password: 'Password',
+
     firstName: 'First name',
     lastName: 'Last name',
     alreadyHaveAnAccount: 'Already have an account',
+
+    addNewBookmark: 'Add new bookmark',
+    signOut: 'Sign out',
+    close: 'Close',
+    title: 'Title',
+    link: 'Link',
+    searchBookmarks: 'Search bookmarks',
+
+    edit: 'Edit',
+    delete: 'Delete',
+    copyLink: 'Copy link',
+    openInNewTab: 'Open in new tab',
+    openInNewWindow: 'Open in new window',
   },
   uk: {
     login: 'Увійти',
@@ -37,9 +51,23 @@ const messages = {
     signup: 'Зареєструватись',
     email: 'Email',
     password: 'Пароль',
+
     firstName: `Ім'я`,
     lastName: 'Прізвище',
     alreadyHaveAnAccount: 'Вже маєте акаунт',
+
+    addNewBookmark: 'Додати закладку',
+    signOut: 'Вийти',
+    close: 'Закрити',
+    title: 'Назва',
+    link: 'Посилання',
+    searchBookmarks: 'Шукати закладки',
+
+    edit: 'Редагувати',
+    delete: 'Видалити',
+    copyLink: 'Копіювати посилання',
+    openInNewTab: 'Відкрити в новій вкладці',
+    openInNewWindow: 'Відкрити в новому вікні',
   }
 }
 

@@ -38,7 +38,7 @@ export default {
       type="text"
       class="search-input"
       v-model="value"
-      placeholder="Search bookmarks"
+      :placeholder="$t('searchBookmarks')"
     />
 
     <IconButton

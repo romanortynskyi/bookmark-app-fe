@@ -34,29 +34,6 @@ export default {
       contextMenuX: null,
       contextMenuY: null,
       contextMenuVisible: false,
-
-      contextMenuItems: [
-        {
-          label: 'Edit',
-          onClick: this.onEditClick,
-        },
-        {
-          label: 'Delete',
-          onClick: this.onDeleteClick,
-        },
-        {
-          label: 'Copy link',
-          onClick: this.onCopyLinkClick,
-        },
-        {
-          label: 'Open in new tab',
-          onClick: this.onOpenInNewTabClick,
-        },
-        {
-          label: 'Open in new window',
-          onClick: this.onOpenInNewWindowClick,
-        },
-      ],
     }
   },
   async mounted() {
@@ -269,6 +246,32 @@ export default {
       this.bookmarks = newAllBookmarks
     },
   },
+  computed: {
+    contextMenuItems() {
+      return [
+        {
+          label: this.$t('edit'),
+          onClick: this.onEditClick,
+        },
+        {
+          label: this.$t('delete'),
+          onClick: this.onDeleteClick,
+        },
+        {
+          label: this.$t('copyLink'),
+          onClick: this.onCopyLinkClick,
+        },
+        {
+          label: this.$t('openInNewTab'),
+          onClick: this.onOpenInNewTabClick,
+        },
+        {
+          label: this.$t('openInNewWindow'),
+          onClick: this.onOpenInNewWindowClick,
+        },
+      ]
+    },
+  },
 }
 
 </script>
@@ -279,8 +282,8 @@ export default {
       <span v-if="isLoadingBookmarks">Loading...</span>
       <div class="content" v-else>
         <div class="top-buttons-container">
-          <Button text="Add new bookmark" :click="onAddBookmark" />
-          <Button text="Sign out" :click="onSignOut" />
+          <Button :text="$t('addNewBookmark')" :click="onAddBookmark" />
+          <Button :text="$t('signOut')" :click="onSignOut" />
         </div>
 
         <div class="search">
@@ -292,14 +295,22 @@ export default {
             class="modal-close-btn"
             @click="onCloseModal"
           >
-            CLOSE
+            {{ $t('close') }}
           </button>
           <form
             class="form"
             @submit.prevent="onSubmit"
           >
-            <Input type="text" v-model="title" placeholder="title" />
-            <Input type="text" v-model="link" placeholder="link" />
+            <Input
+              type="text"
+              v-model="title"
+              :placeholder="$t('title')"
+            />
+            <Input
+              type="text"
+              v-model="link"
+              :placeholder="$t('link')"
+            />
             <Button text="OK" type="submit" />
           </form>
         </Modal>
