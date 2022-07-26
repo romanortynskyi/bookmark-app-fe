@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       title: '',
-      description: '',
       link: '',
 
       isLoadingBookmarks: true,
@@ -79,7 +78,6 @@ export default {
   methods: {
     resetForm() {
       this.title = ''
-      this.description = ''
       this.link = ''
     },
     closeContextMenu() {
@@ -113,7 +111,6 @@ export default {
       const body = {
         userId: id,
         title: this.title,
-        description: this.description,
         link,
       }
 
@@ -140,7 +137,6 @@ export default {
       const body = {
         userId,
         title: this.title,
-        description: this.description,
         link: this.link,
       }
 
@@ -193,7 +189,6 @@ export default {
       this.selectedBookmarkId = this.focusedBookmarkId
 
       this.title = selectedBookmark.title
-      this.description = selectedBookmark.description
       this.link = selectedBookmark.link
 
       this.isModalVisible = true
@@ -279,65 +274,71 @@ export default {
 </script>
 
 <template>
-  <main class="main">
-    <span v-if="isLoadingBookmarks">Loading...</span>
-    <div class="container" v-else>
-      <div class="top-buttons-container">
-        <Button text="Add new bookmark" :click="onAddBookmark" />
-        <Button text="Sign out" :click="onSignOut" />
+  <div class="container">
+    <main class="main">
+      <span v-if="isLoadingBookmarks">Loading...</span>
+      <div class="content" v-else>
+        <div class="top-buttons-container">
+          <Button text="Add new bookmark" :click="onAddBookmark" />
+          <Button text="Sign out" :click="onSignOut" />
+        </div>
+
+        <div class="search">
+          <Search :onChange="onSearch" />
+        </div>
+        
+        <Modal :visible="isModalVisible">
+          <button
+            class="modal-close-btn"
+            @click="onCloseModal"
+          >
+            CLOSE
+          </button>
+          <form
+            class="form"
+            @submit.prevent="onSubmit"
+          >
+            <Input type="text" v-model="title" placeholder="title" />
+            <Input type="text" v-model="link" placeholder="link" />
+            <Button text="OK" type="submit" />
+          </form>
+        </Modal>
+
+        <BookmarkList
+          :items="bookmarks"
+          :focusedId="focusedBookmarkId"
+          :onItemFocus="onBookmarkFocus"
+
+          :onContextMenu="onContextMenu"
+          :contextMenuX="contextMenuX"
+          :contextMenuY="contextMenuY"
+          :contextMenuVisible="contextMenuVisible"
+        />
+
+        <ContextMenu
+          :onClickOutside="onContextMenuClickOutside"
+          :left="contextMenuX"
+          :top="contextMenuY"
+          :items="contextMenuItems"
+          :visible="contextMenuVisible"
+        />
+
       </div>
-
-      <div class="search">
-        <Search :onChange="onSearch" />
-      </div>
-      
-      <Modal :visible="isModalVisible">
-        <button
-          class="modal-close-btn"
-          @click="onCloseModal"
-        >
-          CLOSE
-        </button>
-        <form
-          class="form"
-          @submit.prevent="onSubmit"
-        >
-          <Input type="text" v-model="title" placeholder="title" />
-          <Input type="text" v-model="description" placeholder="description" />
-          <Input type="text" v-model="link" placeholder="link" />
-          <Button text="OK" type="submit" />
-        </form>
-      </Modal>
-
-      <BookmarkList
-        :items="bookmarks"
-        :focusedId="focusedBookmarkId"
-        :onItemFocus="onBookmarkFocus"
-
-        :onContextMenu="onContextMenu"
-        :contextMenuX="contextMenuX"
-        :contextMenuY="contextMenuY"
-        :contextMenuVisible="contextMenuVisible"
-      />
-
-      <ContextMenu
-        :onClickOutside="onContextMenuClickOutside"
-        :left="contextMenuX"
-        :top="contextMenuY"
-        :items="contextMenuItems"
-        :visible="contextMenuVisible"
-      />
-
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <style scoped>
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .main {
   height: 100vh;
 }
 
-.container {
+.content {
   height: 100%;
   width: 100%;
 }

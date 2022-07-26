@@ -67,6 +67,10 @@ export default {
     @contextmenu.prevent="_onContextMenu"
   >
     <div class="left">
+      <img
+        :src="`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${this.link}&size=16`"
+        class="favicon"
+      />
       <span class="title">{{ this.title }}</span>
       <span class="link" v-if="isFocused">{{ this.link }}</span>
     </div>
@@ -88,6 +92,15 @@ export default {
   background-color: rgb(232, 240, 254);
 }
 
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.favicon {
+  margin-right: 16px;
+}
+
 .title {
   margin-right: 10px;
 }
@@ -98,6 +111,10 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   color: rgb(149,154,163);
+}
+
+span {
+  cursor: default;
 }
 
 </style>
