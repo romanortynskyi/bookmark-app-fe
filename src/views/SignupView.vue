@@ -52,10 +52,19 @@ export default {
         method: 'POST',
       })
 
-      const user = await response.json()
+      const responseBody = await response.json()
 
-      localStorage.setItem('user', JSON.stringify(user))
-      this.$router.replace('/')
+      if (!response.ok) {
+        this.$notify({
+          text: responseBody.message,
+          type: 'error',
+        })
+      }
+
+      else {
+        localStorage.setItem('user', JSON.stringify(responseBody))
+        this.$router.replace('/')
+      } 
     }
   },
   watch: {
