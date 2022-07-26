@@ -6,7 +6,7 @@ export default {
   components: {
     Input,
     Button,
-},
+  },
   data() {
     return {
       email: '',
@@ -14,6 +14,9 @@ export default {
 
       emailError: null,
       passwordError: null,
+
+      emailWasTouched: false,
+      passwordWasTouched: false,
 
       isFetching: false,
     }
@@ -49,6 +52,8 @@ export default {
   },
   watch: {
     email(newEmail) {
+      this.emailWasTouched = true
+
       if (newEmail.length === 0) {
         this.emailError = 'Email should not be empty'
         return
@@ -65,6 +70,8 @@ export default {
       this.emailError = null
     },
     password(newPassword) {
+      this.passwordWasTouched = true
+
       if (newPassword.length === 0) {
         this.passwordError = 'Password should not be empty'
         return
@@ -76,6 +83,14 @@ export default {
       }
 
       this.passwordError = null
+    },
+  },
+  computed: {
+    isSubmitDisabled() {
+        return Boolean(this.emailError)
+        || Boolean(this.passwordError)
+        || !this.emailWasTouched
+        || !this.passwordWasTouched
     },
   },
 }
@@ -91,7 +106,7 @@ export default {
           <Input type="email" placeholder="Email" v-model="email" :error="emailError" />
           <Input type="password" placeholder="Password" v-model="password" :error="passwordError" />
           
-          <Button text="Login" type="submit" />
+          <Button text="Login" type="submit" :disabled="isSubmitDisabled" />
         </form>
 
         <p>

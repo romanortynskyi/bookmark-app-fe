@@ -11,6 +11,10 @@ export default {
     click: {
       type: Function,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 }
 </script>
@@ -19,6 +23,7 @@ export default {
   <button
     :type="type"
     @click="click"
+    :disabled="disabled"
   >
     {{ this.text }}
   </button>
@@ -33,20 +38,23 @@ button {
   border: none;
   border-radius: 999px;
   padding: 15px;
-  cursor: pointer;
   margin-bottom: 6rem;
   border: 1px solid transparent;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
 }
 
 button:disabled {
   background-color: #8ceabb;
 }
 
-button:hover {
+button:not(:disabled):hover {
   background-color: #378f7b;
 }
 
-button:focus {
+button:not(:disabled):focus {
   border: 1px solid #098d6e;
 }
 
