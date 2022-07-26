@@ -110,18 +110,32 @@ export default {
   <div class="container">
     <div class="grid align__item">
       <div class="register">
-        <h2>Login</h2>
+        <h2>{{ $t('login') }}</h2>
   
         <form class="form" @submit.prevent="onSubmit">
-          <Input type="email" placeholder="Email" v-model="email" :error="emailError" />
-          <Input type="password" placeholder="Password" v-model="password" :error="passwordError" />
+          <Input
+            type="email"
+            :placeholder="$t('email')"
+            v-model="email"
+            :error="emailError"
+          />
+          <Input
+            type="password"
+            :placeholder="$t('password')"
+            v-model="password"
+            :error="passwordError"
+          />
           
-          <Button text="Login" type="submit" :disabled="isSubmitDisabled" />
+          <Button
+            :text="$t('login')"
+            type="submit"
+            :disabled="isSubmitDisabled"
+          />
         </form>
 
         <p>
-          Don't have an account?
-          <RouterLink to="/signup">Sign up</RouterLink>
+          {{ $t('dontHaveAnAccount') }}?
+          <RouterLink to="/signup">{{ $t('signup') }}</RouterLink>
         </p>
       </div>
     </div>
