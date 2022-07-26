@@ -12,6 +12,10 @@ a,
   transition: 0.4s;
 }
 
+h2 {
+  font-size: 2.25rem;
+}
+
 ul {
   padding: 0;
 }

@@ -27,6 +27,9 @@ const messages = {
     signup: 'Sign up',
     email: 'Email',
     password: 'Password',
+    firstName: 'First name',
+    lastName: 'Last name',
+    alreadyHaveAnAccount: 'Already have an account',
   },
   uk: {
     login: 'Увійти',
@@ -34,6 +37,9 @@ const messages = {
     signup: 'Зареєструватись',
     email: 'Email',
     password: 'Пароль',
+    firstName: `Ім'я`,
+    lastName: 'Прізвище',
+    alreadyHaveAnAccount: 'Вже маєте акаунт',
   }
 }
 
