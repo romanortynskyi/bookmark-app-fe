@@ -5,9 +5,13 @@ import vClickOutsideUmd from 'click-outside-vue3'
 import Notifications from '@kyvg/vue3-notification'
 import { createI18n } from 'vue-i18n'
 
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import {
+  faMagnifyingGlass,
+  faEllipsisVertical,
+  faXmark,
+  faSun,
+  faMoon,
+} from '@fortawesome/free-solid-svg-icons'
 
 import App from './App.vue'
 import router from './router'
@@ -85,6 +89,8 @@ app.use(i18n)
 library.add(faMagnifyingGlass)
 library.add(faEllipsisVertical)
 library.add(faXmark)
+library.add(faSun)
+library.add(faMoon)
 
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 

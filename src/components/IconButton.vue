@@ -13,7 +13,7 @@ export default {
 
 <template>
   <button @click="click" ref="button">
-    <FontAwesomeIcon :icon="`fa-solid ${icon}`" />
+    <FontAwesomeIcon :icon="`fa-solid ${icon}`" class="icon" />
   </button>
 </template>
 
@@ -30,6 +30,10 @@ button {
 }
 
 button:hover {
-  background-color: #ccc;
+  background-color: var(--icon-button-hover-color);
+}
+
+.icon {
+  color: var(--text-color);
 }
 </style>

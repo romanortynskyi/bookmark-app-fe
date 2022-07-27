@@ -25,11 +25,13 @@
 :root {
   --text-color: #222120;
   --background-color: #f3f3f3;
+  --icon-button-hover-color: #ccc;
 }
 
 :root.dark-theme {
   --text-color: #f3f3f3;
   --background-color: #222120;
+  --icon-button-hover-color: rgb(87, 87, 87);
 }
 
 /* @media (prefers-color-scheme: dark) {

@@ -1,11 +1,13 @@
 <script>
 import { RouterView } from 'vue-router'
 import Select from './components/Select.vue'
+import IconButton from './components/IconButton.vue'
 export default {
   components: {
     RouterView,
     Select,
-  },
+    IconButton
+},
   data() {
     return {
       languages: [
@@ -68,8 +70,14 @@ export default {
 
 <template>
   <header>
-    <button @click="toggleTheme">toggle</button>
-    <h1>{{ $t('message.hello') }}</h1>
+    <div class="theme-toggle-container">
+      <IconButton
+        @click="toggleTheme"
+        :icon="userTheme === 'light-theme' ? 'fa-moon' : 'fa-sun'"
+      />
+    </div>
+    
+    <!-- <h1>{{ $t('message.hello') }}</h1> -->
 
     <Select
       :options="languages"
@@ -86,10 +94,17 @@ export default {
 h1 {
   color: var(--text-color);
 }
+
 header {
   display: flex;
+  align-items: center;
   position: absolute;
   padding: 20px;
   right: 0;
 }
+
+.theme-toggle-container {
+  margin-right: 20px;
+}
+
 </style>
