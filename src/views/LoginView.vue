@@ -144,10 +144,10 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f3f3f3;
+  background-color: var(--background-color);
   /* background-color: #354152; */
   /* color: #7e8ba3; */
-  color: #222120;
+  color: var(--text-color);
   font: 300 1rem/1.5 Helvetica Neue, sans-serif;
   
   min-height: 100%;

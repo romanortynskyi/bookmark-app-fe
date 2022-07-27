@@ -14,11 +14,48 @@ export default {
       ],
       tabindex: 0,
       selectedLanguageIndex: 0,
+      userTheme: 'light-theme',
     }
+  },
+  mounted() {
+    const initialUserTheme = this.getTheme() || this.getMediaPreference()
+    this.setTheme(initialUserTheme)
   },
   methods: {
     onLanguageChange(index) {
       this.selectedLanguageIndex = index
+    },
+    setTheme(theme) {
+      localStorage.setItem('user-theme', theme)
+      this.userTheme = theme
+      document.documentElement.className = theme
+    },
+    toggleTheme() {
+      const activeTheme = localStorage.getItem('user-theme')
+
+      if (activeTheme === 'light-theme') {
+        this.setTheme('dark-theme')
+      }
+      
+      else {
+        this.setTheme('light-theme')
+      }
+    },
+    getMediaPreference() {
+      const hasDarkPreference = window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .matches
+
+      if (hasDarkPreference) {
+        return 'dark-theme'
+      }
+
+      else {
+        return 'light-theme'
+      }
+    },
+    getTheme() {
+      return localStorage.getItem('user-theme')
     },
   },
   watch: {
@@ -30,21 +67,27 @@ export default {
 </script>
 
 <template>
-  <!-- <h1>{{ $t('message.hello') }}</h1> -->
-  <div class="select-container">
+  <header>
+    <button @click="toggleTheme">toggle</button>
+    <h1>{{ $t('message.hello') }}</h1>
+
     <Select
       :options="languages"
       :tabindex="tabindex"
       :selectedIndex="selectedLanguageIndex"
       :onChange="onLanguageChange"
     />
-  </div>
+  </header>
   <RouterView />
   <notifications />
 </template>
 
 <style scoped>
-.select-container {
+h1 {
+  color: var(--text-color);
+}
+header {
+  display: flex;
   position: absolute;
   padding: 20px;
   right: 0;

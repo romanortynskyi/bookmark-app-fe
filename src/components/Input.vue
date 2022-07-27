@@ -35,16 +35,12 @@ export default {
 </template>
 
 <style scoped>
-.input-container {
-  
-}
-
 input {
-  border: 1px solid #242c37;
+  border: 1px solid var(--text-color);
   border-radius: 999px;
   background-color: transparent;
   font: inherit;
-  color: rgb(29, 29, 29);
+  color: var(--text-color);
   outline: 0;
   padding: 0.5rem 1rem;
   width: 100%;
