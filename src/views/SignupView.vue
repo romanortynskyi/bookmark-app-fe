@@ -139,11 +139,11 @@ export default {
 
 <template>
   <div class="container">
-    <div class="grid align__item">
+    <div class="grid">
       <div class="register">
-        <h2>{{ $t('signup') }}</h2>
+        <h2 class="title">{{ $t('signup') }}</h2>
   
-        <form class="form" @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit">
           <Input
             type="text"
             :placeholder="$t('firstName')"
@@ -187,10 +187,8 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f3f3f3;
-  /* background-color: #354152; */
-  /* color: #7e8ba3; */
-  color: #222120;
+  background-color: var(--background-color);
+  color: var(--text-color);
   font: 300 1rem/1.5 Helvetica Neue, sans-serif;
   
   min-height: 100%;
@@ -199,42 +197,10 @@ export default {
   align-items: center;
 }
 
-input {
-  border: 0;
-  font: inherit;
-  color: #222120;
-}
-
-input::placeholder {
-  color: #666;
-}
-
-.form input {
-  outline: 0;
-  padding: 0.5rem 1rem;
-}
-
-.form input {
-  width: 100%;
-}
-
 .grid {
   margin: 0 auto;
   max-width: 25rem;
   width: 100%;
-}
-
-h2 {
-  font-size: 2.75rem;
-  font-weight: 100;
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-}
-
-svg {
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
 }
 
 a {
@@ -246,12 +212,6 @@ a {
   border-radius: 20px;
   text-align: center;
   padding: 4rem 2rem;
-}
-
-.register input {
-  border: 1px solid #242c37;
-  border-radius: 999px;
-  background-color: transparent;
 }
 
 </style>
