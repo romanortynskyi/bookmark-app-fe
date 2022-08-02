@@ -68,7 +68,6 @@ export default {
 
 <template>
   <header>
-    {{ this.isDarkMode() }}
     <div class="mode-toggle-container">
       <IconButton
         @click="toggleMode"

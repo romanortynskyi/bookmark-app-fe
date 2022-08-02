@@ -26,6 +26,8 @@
   --text-color: #222120;
   --background-color: #f3f3f3;
   --icon-button-hover-color: #ccc;
+  
+  --green: rgb(0, 167, 111);
 }
 
 :root.dark-mode {

@@ -195,11 +195,11 @@ svg {
 }
 
 a {
-  color: #666;
+  color: var(--green);
 }
 
 .register {
-  box-shadow: 0px 0px 8px -4px #000000;
+  box-shadow: 0px 0px 8px -4px var(--text-color);
   border-radius: 20px;
   text-align: center;
   padding: 4rem 2rem;
