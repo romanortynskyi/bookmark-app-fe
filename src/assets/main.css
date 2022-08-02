@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+body {
+  background-color: var(--background-color);
+}
+
 a,
 .green {
   text-decoration: none;

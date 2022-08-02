@@ -31,7 +31,7 @@ export default {
 <template>
   <div class="search-container">
     <div class="icon-container">
-      <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
+      <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" :style="{ color: 'var(--text-color)' }" />
     </div>
 
     <input
@@ -54,7 +54,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 15px;
-  box-shadow: 0px 0px 8px -4px #000000;
+  box-shadow: 0px 0px 8px -4px var(--text-color);
   border-radius: 20px;
 }
 
@@ -67,5 +67,7 @@ input {
   outline: none;
   width: 100%;
   height: 30px;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 </style>
