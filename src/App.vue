@@ -16,48 +16,41 @@ export default {
       ],
       tabindex: 0,
       selectedLanguageIndex: 0,
-      userTheme: 'light-theme',
     }
   },
   mounted() {
-    const initialUserTheme = this.getTheme() || this.getMediaPreference()
-    this.setTheme(initialUserTheme)
+    const initialIsDarkMode = this.isDarkMode() || this.getMediaPreference()
+    this.setDarkMode(initialIsDarkMode)
   },
   methods: {
     onLanguageChange(index) {
       this.selectedLanguageIndex = index
     },
-    setTheme(theme) {
-      localStorage.setItem('user-theme', theme)
-      this.userTheme = theme
-      document.documentElement.className = theme
-    },
-    toggleTheme() {
-      const activeTheme = localStorage.getItem('user-theme')
-
-      if (activeTheme === 'light-theme') {
-        this.setTheme('dark-theme')
-      }
+    setDarkMode(isDarkMode) {
+      localStorage.setItem('dark-mode', isDarkMode)
       
-      else {
-        this.setTheme('light-theme')
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark-mode')
       }
+
+      else {
+        document.documentElement.classList.remove('dark-mode')
+      }
+    },
+    toggleMode() {
+      this.$store.commit('toggleDarkMode')
+      localStorage.setItem('dark-mode', this.isDarkMode())
+      this.setDarkMode(this.isDarkMode())
     },
     getMediaPreference() {
       const hasDarkPreference = window
         .matchMedia('(prefers-color-scheme: dark)')
         .matches
 
-      if (hasDarkPreference) {
-        return 'dark-theme'
-      }
-
-      else {
-        return 'light-theme'
-      }
+      return hasDarkPreference
     },
-    getTheme() {
-      return localStorage.getItem('user-theme')
+    isDarkMode() {
+      return this.$store.state.isDarkMode
     },
   },
   watch: {
@@ -65,15 +58,22 @@ export default {
       this.$root.$i18n.locale = this.languages[newSelectedLanguageIndex]
     },
   },
+  computed: {
+    modeIcon() {
+      return this.isDarkMode() ? 'fa-moon' : 'fa-sun'
+    },
+  },
 }
 </script>
 
 <template>
   <header>
-    <div class="theme-toggle-container">
+    {{ this.isDarkMode() }}
+    <div class="mode-toggle-container">
       <IconButton
-        @click="toggleTheme"
-        :icon="userTheme === 'light-theme' ? 'fa-moon' : 'fa-sun'"
+        @click="toggleMode"
+        :icon="modeIcon"
+        iconColor="var(--text-color)"
       />
     </div>
     
@@ -103,7 +103,7 @@ header {
   right: 0;
 }
 
-.theme-toggle-container {
+.mode-toggle-container {
   margin-right: 20px;
 }
 

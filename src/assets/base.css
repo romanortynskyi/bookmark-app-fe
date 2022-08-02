@@ -28,7 +28,7 @@
   --icon-button-hover-color: #ccc;
 }
 
-:root.dark-theme {
+:root.dark-mode {
   --text-color: #f3f3f3;
   --background-color: #222120;
   --icon-button-hover-color: rgb(87, 87, 87);

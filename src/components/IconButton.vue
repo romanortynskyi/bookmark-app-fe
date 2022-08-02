@@ -7,13 +7,21 @@ export default {
     icon: {
       type: String,
     },
+    iconColor: {
+      type: String,
+    },
   },
 }
 </script>
 
 <template>
   <button @click="click" ref="button">
-    <FontAwesomeIcon :icon="`fa-solid ${icon}`" class="icon" />
+    <FontAwesomeIcon
+      :icon="`fa-solid ${icon}`"
+      :style="{
+        color: iconColor,
+      }"
+    />
   </button>
 </template>
 
@@ -31,9 +39,5 @@ button {
 
 button:hover {
   background-color: var(--icon-button-hover-color);
-}
-
-.icon {
-  color: var(--text-color);
 }
 </style>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vClickOutsideUmd from 'click-outside-vue3'
 import Notifications from '@kyvg/vue3-notification'
 import { createI18n } from 'vue-i18n'
+import { createStore } from 'vuex'
 
 import {
   faMagnifyingGlass,
@@ -93,5 +94,21 @@ library.add(faSun)
 library.add(faMoon)
 
 app.component('FontAwesomeIcon', FontAwesomeIcon)
+
+const store = createStore({
+  state() {
+    return {
+      isDarkMode: false,
+    }
+  },
+  mutations: {
+    toggleDarkMode(state) {
+      state.isDarkMode = !state.isDarkMode
+    },
+  },
+})
+
+app.use(store)
+
 
 app.mount('#app')

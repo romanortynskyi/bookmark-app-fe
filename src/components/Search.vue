@@ -45,6 +45,7 @@ export default {
       v-if="value.length > 0"
       icon="fa-xmark"
       :click="onClear"
+      iconColor="var(--text-color)"
     />
   </div>
 </template>

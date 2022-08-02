@@ -54,6 +54,18 @@ export default {
       })
     },
   },
+  computed: {
+    iconColor() {
+      if (this.isFocused) {
+        return '#000';
+      }
+
+      return 'var(--text-color)';
+    },
+    isDarkMode() {
+      return localStorage.getItem('user-theme') === 'dark-theme';
+    },
+  },
 }
 </script>
 
@@ -71,11 +83,22 @@ export default {
         :src="`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${this.link}&size=16`"
         class="favicon"
       />
-      <span class="title">{{ this.title }}</span>
+      <span :class="{
+        title: true,
+        focused: isFocused,
+        darkMode: isDarkMode,
+      }">
+        {{ this.title }}
+      </span>
       <span class="link" v-if="isFocused">{{ this.link }}</span>
     </div>
     
-    <IconButton ref="iconButton" icon="fa-ellipsis-vertical" :click="onMenuClick" />
+    <IconButton
+      ref="iconButton"
+      icon="fa-ellipsis-vertical"
+      :click="onMenuClick"
+      :iconColor="iconColor"
+    />
   </div>
 </template>
 
@@ -113,8 +136,7 @@ export default {
   color: rgb(149,154,163);
 }
 
-span {
+.title {
   cursor: default;
 }
-
 </style>
