@@ -271,6 +271,9 @@ export default {
         },
       ]
     },
+    isDarkMode() {
+      return this.$store.state.isDarkMode
+    },
   },
 }
 
@@ -324,6 +327,8 @@ export default {
           :contextMenuX="contextMenuX"
           :contextMenuY="contextMenuY"
           :contextMenuVisible="contextMenuVisible"
+
+          :isDarkMode="isDarkMode"
         />
 
         <ContextMenu

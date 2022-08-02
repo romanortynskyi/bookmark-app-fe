@@ -30,6 +30,9 @@ export default {
     onContextMenu: {
       type: Function,
     },
+    isDarkMode: {
+      type: Boolean,
+    },
   },
   components: {
     Bookmark,
@@ -58,6 +61,8 @@ export default {
         :onOpenInNewWindowClick="onOpenInNewWindowClick"
 
         :onContextMenu="onContextMenu"
+
+        :isDarkMode="isDarkMode"
       />
     </li>
   </ul>

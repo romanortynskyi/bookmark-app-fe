@@ -25,6 +25,10 @@ export default {
     onContextMenu: {
       type: Function,
     },
+
+    isDarkMode: {
+      type: Boolean,
+    },
   },
   directives: {
     clickOutside: vClickOutside.directive,
@@ -61,9 +65,6 @@ export default {
       }
 
       return 'var(--text-color)';
-    },
-    isDarkMode() {
-      return localStorage.getItem('user-theme') === 'dark-theme';
     },
   },
 }
@@ -126,6 +127,16 @@ export default {
 
 .title {
   margin-right: 10px;
+  cursor: default;
+  color: var(--text-color);
+}
+
+.title.darkMode {
+  color: var(--text-color);
+}
+
+.title.darkMode.focused {
+  color: var(--background-color);
 }
 
 .link {
@@ -136,7 +147,4 @@ export default {
   color: rgb(149,154,163);
 }
 
-.title {
-  cursor: default;
-}
 </style>
