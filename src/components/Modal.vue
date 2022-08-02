@@ -24,7 +24,7 @@ div {
   transform: translate(-50%, -50%);
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0px 0px 8px -4px #000000;
-  background-color: white;
+  box-shadow: 0px 0px 8px -4px var(--text-color);
+  background-color: var(--background-color);
 }
 </style>
